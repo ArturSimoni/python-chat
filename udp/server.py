@@ -5,7 +5,7 @@ def start_server(host: str, port: int):
     server.bind((host, port))
 
     clients = set()
-    
+
     print(f'Servidor iniciado em {host}:{port}\nEscutando agora...')
 
     while True:
@@ -17,12 +17,12 @@ def start_server(host: str, port: int):
             print(f'Novo cliente conectado: {addr}')
 
         for client_addr in clients:
-            server.sendto(data, client_addr)
-            print(f'[SERVIDOR] Enviado para {client_addr}: {data.decode()}')
+            if client_addr != addr:
+                server.sendto(data, client_addr)
+                print(f'[SERVIDOR] Enviado para {client_addr}: {data.decode()}')
 
 if __name__ == '__main__':
     HOST = 'localhost'
     PORT = 8000
-    
 
     start_server(HOST, PORT)
