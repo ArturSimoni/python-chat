@@ -11,7 +11,6 @@ def start_server(host: str, port: int):
 
     while True:
         try:
-            # Recebe mensagem do servidor de leitura
             data, addr = server.recvfrom(1024)
             data_cliente = json.loads(data.decode('utf-8'))
 
@@ -20,17 +19,15 @@ def start_server(host: str, port: int):
 
             print(f"[Mensagem recebida de {sender}]: {message}")
 
-            # Adiciona o cliente à lista de clientes conhecidos
             clients.add(sender)
 
-            # Redireciona a mensagem para todos os outros clientes
             for client in list(clients):
-                if client != sender:  # Não envia de volta para o remetente
+                if client != sender:  
                     try:
                         server.sendto(message.encode('utf-8'), client)
                     except Exception as e:
                         print(f"[Erro ao enviar para {client}]: {e}")
-                        clients.remove(client)  # Remove clientes desconectados
+                        clients.remove(client) 
         except Exception as e:
             print(f"[Erro geral]: {e}")
 
